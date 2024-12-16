@@ -71,21 +71,36 @@ std::vector<std::vector<char>> placement_number(std::vector<std::vector<char>> m
 }
 
 //проверка ввода на  целое неотрицательное число
-int ckeck()
+int check()
 {
-    int input_digit = 0;
-    while (!(std::cin >> input_digit) || (input_digit < 0))
+    int input_user = 0;
+
+    while (true)
     {
-        std::cout << "\n\x1b[1;31mType Error!!!" << std::endl;
-        std::cout << "Введите целое число!!!" << std::endl;
-        std::cin >> input_digit;
-        if (!(std::cin >> input_digit))
+        std::cin >> input_user;
+
+        if (std::cin.fail() || input_user < 0)
         {
-            ckeck();
+            std::cout << "\x1b[1;31mError Type!!!" << std::endl;
+            //сбрасываем флаг ошибки
+            std::cin.clear();
+
+            //очищаем буфер обмена ввода
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+            std::cout << "Введите целое положительное число!!!\x1b[0;32m\n";
+
+            //пропуск данной итерации
+            continue;
         }
-        return input_digit;
+
+        if (input_user > 0)
+        {
+            return input_user;
+        }
     }
 }
+
 
 
 int  main()
@@ -237,11 +252,10 @@ int  main()
     }
 
 
-    int line_user = 0;
-    int column_user = 0;
     std::cout << "\x1b[0;32mВведите координаты хода: " << std::endl;
     std::cout << "\tВведите строку: \x1b[0;37m";
-    std::cin >> line_user
+    int line_user = check();
+    int column_user = check();
 
 
 }

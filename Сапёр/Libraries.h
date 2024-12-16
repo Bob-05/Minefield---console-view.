@@ -4,4 +4,4 @@
 #include <ctime>
 #include <string>
 #include <vector>
-#include <cctype>
+#include <limits> //для numeric_limits в функции check()
