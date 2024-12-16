@@ -70,6 +70,23 @@ std::vector<std::vector<char>> placement_number(std::vector<std::vector<char>> m
     return matrix_whith_min;
 }
 
+//проверка ввода на  целое неотрицательное число 
+int ckeck()
+{
+    int input_digit = 0;
+    while (!(std::cin >> input_digit) || (input_digit < 0))
+    {
+        std::cout << "\n\x1b[1;31mType Error!!!" << std::endl;
+        std::cout << "Введите целое число!!!" << std::endl;
+        std::cin >> input_digit;
+        if (!(std::cin >> input_digit))
+        {
+            ckeck();
+        }
+        return input_digit;
+    }
+}
+
 
 int  main()
 {
@@ -115,7 +132,13 @@ int  main()
     //проверка на условия работы игры
     if(level_game == -1)
     { 
-        using std::cout, std::endl, std::cin, std::string;
+        using std::cout;
+        using std::endl;
+        using std::cin;
+        using std::string;
+
+
+
         cout << "\x1b[1;31mPREFERENCE\n";
         cout << "********************************************************\n"
             << "* -->Доступные настройки:                              *\n"
@@ -136,7 +159,11 @@ int  main()
         }
 
         if (preference == "поле")
-        {
+        { 
+            int number_cells;
+            cout << "\tВведите количество клеток поля: ";
+            cin >> number_cells; 
+            line = column = number_cells / 2;
 
         }
         if (preference == "мины")
@@ -168,7 +195,7 @@ int  main()
         case 1:
             for (int i = 0; i != 20; ++i)
             {
-                coord = rand() % 15;
+                coord = rand() % ((line+column)/2);
                 coordinates.push_back(coord);
             }
             break;
@@ -176,7 +203,7 @@ int  main()
         case 2:
             for (int i = 0; i != 30; ++i)
             {
-                coord = rand() % 15;
+                coord = rand() % ((line + column) / 2);
                 coordinates.push_back(coord);
             }
             break;
@@ -184,7 +211,7 @@ int  main()
         case 3:
             for (int i = 0; i != 40; ++i)
             {
-                coord = rand() % 15;
+                coord = rand() % ((line + column) / 2);
                 coordinates.push_back(coord);
             }
             break;
@@ -193,9 +220,10 @@ int  main()
 
 
 
-
-    //построенние матрицы по заданным данным
+   
+    //построенние матрицы по заданным данным с минами
     assembling = placement_number(placement_min_in_vector(coordinates, assembling_v(line, column)));
+    std::vector<std::vector<char>> matrix = placement_min_in_vector(coordinates, assembling_v(line, column));
 
 
     //вывод даннлй матрицы
@@ -203,10 +231,17 @@ int  main()
     {
         for (int limits_c = 0; limits_c < column; limits_c++)
         {
-            std::cout << assembling[limits_l][limits_c] << " ";
+            std::cout << matrix[limits_l][limits_c] << " ";
         }
         std::cout << std::endl;
     }
+
+
+    int line_user = 0;
+    int column_user = 0;
+    std::cout << "\x1b[0;32mВведите координаты хода: " << std::endl;
+    std::cout << "\tВведите строку: \x1b[0;37m";
+    std::cin >> line_user
 
 
 }
