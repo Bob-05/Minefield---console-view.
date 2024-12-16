@@ -70,7 +70,7 @@ std::vector<std::vector<char>> placement_number(std::vector<std::vector<char>> m
     return matrix_whith_min;
 }
 
-//проверка ввода на  целое неотрицательное число 
+//проверка ввода на  целое неотрицательное число
 int ckeck()
 {
     int input_digit = 0;
