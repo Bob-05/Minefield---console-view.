@@ -238,24 +238,51 @@ int  main()
    
     //построенние матрицы по заданным данным с минами
     assembling = placement_number(placement_min_in_vector(coordinates, assembling_v(line, column)));
-    std::vector<std::vector<char>> matrix = placement_min_in_vector(coordinates, assembling_v(line, column));
+    std::vector<std::vector<char>> matrix = assembling_v(line, column);
 
 
-    //вывод даннлй матрицы
+    //вывод данной матрицы
     for (int limits_l = 0; limits_l < line; limits_l++)
     {
         for (int limits_c = 0; limits_c < column; limits_c++)
         {
-            std::cout << matrix[limits_l][limits_c] << " ";
+            std::cout << assembling[limits_l][limits_c] << " ";
         }
         std::cout << std::endl;
     }
 
+check_for_input:
 
     std::cout << "\x1b[0;32mВведите координаты хода: " << std::endl;
-    std::cout << "\tВведите строку: \x1b[0;37m";
+    std::cout << "\t\x1b[0;32mВведите строку: \x1b[0;37m";
     int line_user = check();
+    std::cout << "\t\x1b[0;32mВведите столбец: \x1b[0;37m";
     int column_user = check();
 
 
+    if ((line_user > line && line_user < 0) && (column_user > column && column_user < 0))
+    {
+        std::cout << "\t\x1b[1;31mОшибка ввода!!!\n";
+        std::cout << "\tКоординаты должны соответствовать величине поля!!!\x1b[0;37m\n";
+        goto check_for_input;
+    }
+    else if (assembling[line_user][column_user] == '*')
+    {
+        std::cout << "\x1b[1;32mВы угадли!!!\n";
+        matrix[line_user][column_user] = assembling[line_user][column_user]; \
+            matrix = placement_number(matrix);
+        //вывод данной матрицы
+        for (int limits_l = 0; limits_l < line; limits_l++)
+        {
+            for (int limits_c = 0; limits_c < column; limits_c++)
+            {
+                std::cout << "\x1b[1;36m" << matrix[limits_l][limits_c] << " ";
+            }
+            std::cout << std::endl;
+        }
+    }
+    else
+    {
+        std::cout << "\t\x1b[1;31mПромах....\x1b[0;37m\n";
+    }
 }
