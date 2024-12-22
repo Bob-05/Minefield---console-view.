@@ -1,4 +1,4 @@
-//в разработке
+//in development...
 #include "Libraries.h"
 std::vector <std::string> processing_input; 
 //fun_processing_input 
