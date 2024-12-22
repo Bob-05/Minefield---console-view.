@@ -70,6 +70,37 @@ std::vector<std::vector<char>> placement_number(std::vector<std::vector<char>> m
     return matrix_whith_min;
 }
 
+
+//раставление чисел вокруг мины по её координатам
+std::vector<std::vector<char>> placement_number_for_coord(std::vector<std::vector<char>> matrix_whith_min, int index_line, int index_column)
+{
+    size_t size_line = matrix_whith_min.size();
+    size_t size_column = matrix_whith_min[0].size();
+
+    for (int i = -1; i <= 1; ++i)
+    {
+        for (int j = -1; j <= 1; ++j)
+        {
+            size_t new_line = index_line + i;
+            size_t new_column = index_column + j;
+
+
+            if (new_line >= 0 && new_line < size_line &&
+                new_column >= 0 && new_column < size_column)
+            {
+                if (matrix_whith_min[new_line][new_column] != '*')
+                {
+                    matrix_whith_min[new_line][new_column] += 1;
+                }
+            }
+
+        }
+
+    }
+    return matrix_whith_min;
+}
+
+
 //проверка ввода на  целое неотрицательное число
 int check()
 {
@@ -94,7 +125,7 @@ int check()
             continue;
         }
 
-        if (input_user > 0)
+        if (input_user >= 0)
         {
             return input_user;
         }
@@ -138,14 +169,12 @@ int  main()
 
 
     //определение режима работы
-    int level_game = 0;
     start:
     std::cout << "\n\tВведите режим игры(цифру): \x1b[0;33m";
-    std::cin >> level_game;
-
+    int level_game = check();
 
     //проверка на условия работы игры
-    if(level_game == -1)
+    if(level_game == -1) //настройки игры
     { 
         using std::cout;
         using std::endl;
@@ -251,38 +280,47 @@ int  main()
         std::cout << std::endl;
     }
 
+
 check_for_input:
-
-    std::cout << "\x1b[0;32mВведите координаты хода: " << std::endl;
-    std::cout << "\t\x1b[0;32mВведите строку: \x1b[0;37m";
-    int line_user = check();
-    std::cout << "\t\x1b[0;32mВведите столбец: \x1b[0;37m";
-    int column_user = check();
-
-
-    if ((line_user > line && line_user < 0) && (column_user > column && column_user < 0))
+    
+    //основное взаимодействие игры с пользователем (процесс игры)
+    for (;;)
     {
-        std::cout << "\t\x1b[1;31mОшибка ввода!!!\n";
-        std::cout << "\tКоординаты должны соответствовать величине поля!!!\x1b[0;37m\n";
-        goto check_for_input;
-    }
-    else if (assembling[line_user][column_user] == '*')
-    {
-        std::cout << "\x1b[1;32mВы угадли!!!\n";
-        matrix[line_user][column_user] = assembling[line_user][column_user]; \
-            matrix = placement_number(matrix);
-        //вывод данной матрицы
-        for (int limits_l = 0; limits_l < line; limits_l++)
+        std::cout << "\x1b[0;32mВведите координаты хода (выход - \"Выход\"): " << std::endl;
+        std::cout << "\t\x1b[0;32mВведите строку : \x1b[0;37m";
+        int line_user = check();
+        std::cout << "\t\x1b[0;32mВведите столбец: \x1b[0;37m";
+        int column_user = check();
+
+        if ((line_user > line && line_user < 0) && (column_user > column && column_user < 0))
         {
-            for (int limits_c = 0; limits_c < column; limits_c++)
-            {
-                std::cout << "\x1b[1;36m" << matrix[limits_l][limits_c] << " ";
-            }
-            std::cout << std::endl;
+            std::cout << "\t\x1b[1;31mОшибка ввода!!!\n";
+            std::cout << "\tКоординаты должны соответствовать величине поля!!!\x1b[0;37m\n";
+            goto check_for_input;
         }
-    }
-    else
-    {
-        std::cout << "\t\x1b[1;31mПромах....\x1b[0;37m\n";
+        else if (assembling[line_user][column_user] == '*')
+        {
+            std::cout << "\x1b[1;32mВы угадли!!!\n";
+            matrix[line_user][column_user] = assembling[line_user][column_user]; \
+                matrix = placement_number_for_coord(matrix, line_user, column_user);
+            //вывод данной матрицы
+            for (int limits_l = 0; limits_l < line; limits_l++)
+            {
+                for (int limits_c = 0; limits_c < column; limits_c++)
+                {
+                    std::cout << "\x1b[1;36m" << matrix[limits_l][limits_c] << " ";
+                }
+                std::cout << std::endl;
+            }
+        }
+        else if (assembling[line_user][column_user] != '*')
+        {
+            std::cout << "\t\x1b[1;31mПромах....\x1b[0;37m\n";
+        }
+        else
+        { 
+            std::cout << "\t\x1b[1;31mВыход....\x1b[0;37m\n";
+            return 0;
+        }
     }
 }

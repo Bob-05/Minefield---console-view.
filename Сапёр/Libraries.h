@@ -4,4 +4,5 @@
 #include <ctime>
 #include <string>
 #include <vector>
-#include <limits> //для numeric_limits в функции check()
+//для предотвращения записи типа данных отличного от ожидаеммого, использую инструменты из библиотеки:
+#include <limits> //для numeric_limits в функции check() 
