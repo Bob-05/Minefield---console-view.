@@ -6,3 +6,4 @@
 #include <vector>
 //для предотвращения записи типа данных отличного от ожидаеммого, использую инструменты из библиотеки:
 #include <limits> //для numeric_limits в функции check() 
+#include <cstdlib>

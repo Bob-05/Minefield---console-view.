@@ -136,7 +136,8 @@ int check()
 
 int  main()
 {
-    setlocale(LC_ALL, "RUS");
+    std::system("chcp 1251");
+    setlocale(LC_ALL, "Russian");
     srand(time(NULL));
 
     //Размер поля
@@ -203,25 +204,31 @@ int  main()
 
         while (true)
         {
+            menu_preference:
             cout << endl << "Ввод: ";
             string preference;
             cin >> preference;
             //std::getline(cin, preference);
             
-            /*
+            
             for (size_t i = 0; i < preference.size(); i++)
             {
                 preference[i] = tolower(preference[i]);
             }
-            */
+            
             cout << "Предполагаемый ввод => \"" << preference << "\"\n";
 
-            if (preference == "поле" || preference == "ЇR<?")
+            if (preference == "поле")
             {
                 int number_cells;
-                cout << "\tВведите количество клеток поля: ";
+                cout << "\tВведите количество клеток поля (минимум 15 по вертикали и горизонтали): ";
                 cin >> number_cells;
-                line = column = number_cells / 2;
+                line = column = number_cells;
+                if (line = column)
+                {
+                    cout << "\n\tУспешно!!!\n";
+                    goto menu_preference;
+                }
 
             }
             if (preference == "мины")
@@ -242,11 +249,13 @@ int  main()
             }
             if (preference == "выход")
             {
+
+                cout << "----------------------------Успешно-------------------------\n\n\x1b[1;32m";
                 goto start;
             }
             else
             {
-                cout << "\n\t\tНЕВЕРНЫЙ ВВОД!!!\n";
+                cout << "\n\t\tНЕВЕРНЫЙ ВВОД!!!\n" 
             }
         }
     }
