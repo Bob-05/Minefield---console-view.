@@ -136,7 +136,7 @@ int check()
 
 int  main()
 {
-    setlocale(LC_ALL, "ru");
+    setlocale(LC_ALL, "RUS");
     srand(time(NULL));
 
     //Размер поля
@@ -147,9 +147,17 @@ int  main()
     std::vector <int> coordinates;
     coordinates.reserve(200);
     int coord;
+
+    //количество мин на поле
+    int level_1_min = 20; //10 мин
+    int level_2_min = 30; //15 мин
+    int level_3_min = 40; //20 мин
+
+
     //построенное поле
     std::vector<std::vector<char>> assembling;
 
+    //Правила игры
     std::cout << "\a\x1b[1;32m----------------------------------------\n"
         << ":    Добро пожаловать в игру Сапёр!    :\n"
         << "----------------------------------------\n"
@@ -163,7 +171,7 @@ int  main()
               << ":        - (2)Средний (По умолчанию 15 мин);                          :\n"
               << ":        - (3)Сложный (По умолчанию 20 мин);                          :\n"
               << ":     2. По умолчанию поле имеет размер 15:15 клеток;                 :\n"
-              << ":     3. Все пареметры игры можно изменить, введя \"*Настройки* - (-1)\":\n"
+              << ":     3. Все пареметры игры можно изменить, введя \"*Настройки* - (4)\":\n"
               << "-----------------------------------------------------------------------\x1b[0;32m"
         << std::endl;
 
@@ -174,8 +182,8 @@ int  main()
     int level_game = check();
 
     //проверка на условия работы игры
-    if(level_game == -1) //настройки игры
-    { 
+    if (level_game == 4) //настройки игры
+    {
         using std::cout;
         using std::endl;
         using std::cin;
@@ -187,43 +195,59 @@ int  main()
             << "* -->Доступные настройки:                              *\n"
             << "* --> 1) поле - изменение поля игры;                   *\n"
             << "* --> 2) мины - изменение количества мин на поле;      *\n"
-            << "* --> 3) история игры - история игры                   *\n"
-            << "* --> 4) история настроек - история изменения настроек *\n"
-            << "* --> 5) сброс - сброс игры до заводских настроек      *\n"
+            << "* --> 3) история игры - история игры;                  *\n"
+            << "* --> 4) история настроек - история изменения настроек;*\n"
+            << "* --> 5) сброс - сброс игры до заводских настроек;     *\n"
+            << "* --> 6) чтобы выйти введите - \"выход\".              *\n"
             << "********************************************************\n";
 
-        cout << endl << "Ввод: ";
-        string preference;
-        std::getline(cin, preference);
-
-        for (size_t i = 0; i < preference.size(); i++)
+        while (true)
         {
-            preference[i] = tolower(preference[i]);
-        }
+            cout << endl << "Ввод: ";
+            string preference;
+            cin >> preference;
+            //std::getline(cin, preference);
+            
+            /*
+            for (size_t i = 0; i < preference.size(); i++)
+            {
+                preference[i] = tolower(preference[i]);
+            }
+            */
+            cout << "Предполагаемый ввод => \"" << preference << "\"\n";
 
-        if (preference == "поле")
-        { 
-            int number_cells;
-            cout << "\tВведите количество клеток поля: ";
-            cin >> number_cells; 
-            line = column = number_cells / 2;
+            if (preference == "поле" || preference == "ЇR<?")
+            {
+                int number_cells;
+                cout << "\tВведите количество клеток поля: ";
+                cin >> number_cells;
+                line = column = number_cells / 2;
 
-        }
-        if (preference == "мины")
-        {
+            }
+            if (preference == "мины")
+            {
 
-        }
-        if (preference == "история игры")
-        {
+            }
+            if (preference == "история игры")
+            {
 
-        }
-        if (preference == "история настроек")
-        {
+            }
+            if (preference == "история настроек")
+            {
 
-        }
-        if (preference == "сброс")
-        {
+            }
+            if (preference == "сброс")
+            {
 
+            }
+            if (preference == "выход")
+            {
+                goto start;
+            }
+            else
+            {
+                cout << "\n\t\tНЕВЕРНЫЙ ВВОД!!!\n";
+            }
         }
     }
     else if (level_game > 3 || level_game < 1)
@@ -236,7 +260,7 @@ int  main()
         switch (level_game)
         {
         case 1:
-            for (int i = 0; i != 20; ++i)
+            for (int i = 0; i != level_1_min; ++i)
             {
                 coord = rand() % ((line+column)/2);
                 coordinates.push_back(coord);
@@ -244,7 +268,7 @@ int  main()
             break;
 
         case 2:
-            for (int i = 0; i != 30; ++i)
+            for (int i = 0; i != level_2_min; ++i)
             {
                 coord = rand() % ((line + column) / 2);
                 coordinates.push_back(coord);
@@ -252,7 +276,7 @@ int  main()
             break;
 
         case 3:
-            for (int i = 0; i != 40; ++i)
+            for (int i = 0; i != level_3_min; ++i)
             {
                 coord = rand() % ((line + column) / 2);
                 coordinates.push_back(coord);
