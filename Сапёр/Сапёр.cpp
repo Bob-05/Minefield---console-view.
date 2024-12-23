@@ -179,7 +179,7 @@ int  main()
 
     //определение режима работы
     start:
-    std::cout << "\n\tВведите режим игры(цифру): \x1b[0;33m";
+    std::cout << "\n\t\a\x1b[1;32mВведите режим игры(цифру): \x1b[0;33m";
     int level_game = check();
 
     //проверка на условия работы игры
@@ -233,29 +233,33 @@ int  main()
             }
             if (preference == "мины")
             {
-
+                cout << "\aДанная функция в разработке!\n";
+                goto menu_preference;
             }
             if (preference == "история игры")
             {
-
+                cout << "\aДанная функция в разработке!\n";
+                goto menu_preference;
             }
             if (preference == "история настроек")
             {
-
+                cout << "\aДанная функция в разработке!\n";
+                goto menu_preference;
             }
             if (preference == "сброс")
             {
-
+                cout << "\aДанная функция в разработке!\n";
+                goto menu_preference;
             }
             if (preference == "выход")
             {
 
-                cout << "----------------------------Успешно-------------------------\n\n\x1b[1;32m";
+                cout << "----------------------------Успешно-------------------------\n\n";
                 goto start;
             }
             else
             {
-                cout << "\n\t\tНЕВЕРНЫЙ ВВОД!!!\n" 
+                cout << "\n\t\tНЕВЕРНЫЙ ВВОД!!!\n";
             }
         }
     }
