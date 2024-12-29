@@ -8,7 +8,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Элементы решения", "Элементы решения", "{EA957432-ABB5-4D44-BC3C-D186433B90AA}"
 	ProjectSection(SolutionItems) = preProject
 		TextFile1.txt = TextFile1.txt
-		..\..\..\Desktop\music.wav = ..\..\..\Desktop\music.wav
 	EndProjectSection
 EndProject
 Global

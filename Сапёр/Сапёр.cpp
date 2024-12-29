@@ -180,7 +180,7 @@ int  main()
 
     //определение режима работы
     start:
-    std::cout << "\n\t\a\x1b[1;32mВведите режим игры(цифру): \x1b[0;33m";
+    std::cout << "\n\t\x1b[1;32mВведите режим игры(цифру): \x1b[0;33m";
     int level_game = check();
 
     //проверка на условия работы игры
@@ -317,7 +317,7 @@ int  main()
     {
         for (int limits_c = 0; limits_c < column; limits_c++)
         {
-            std::cout << assembling[limits_l][limits_c] << " ";
+            std::cout << matrix[limits_l][limits_c] << "|";
         }
         std::cout << std::endl;
     }
@@ -333,11 +333,26 @@ check_for_input:
     for (;;)
     {
         std::cout << "\x1b[0;32mВведите координаты хода (выход - \"Выход\"): " << std::endl;
-        std::cout << "\t\x1b[0;32mВведите строку " << "от '0' до " << line -1  << ": \x1b[0;37m";
+        std::cout << "\t\x1b[0;32mВведите строку (сдаться -> " << line << ") от '0' до " << line - 1 << ": \x1b[0;37m";
         int line_user = check();
-        std::cout << "\t\x1b[0;32mВведите столбец " << "от '0' до " << column - 1 << ": \x1b[0;37m";
+        std::cout << "\t\x1b[0;32mВведите столбец (сдаться -> " << column << ") от '0' до " << column - 1 << ": \x1b[0;37m";
         int column_user = check();
 
+
+        if (line_user == line || column_user == column)
+        {
+            //вывод готовой матрицы
+            std::cout << "\t\n\x1b[1;32mОтвет построенного поля:\n\t\x1b[0;33m";
+            for (int limits_l = 0; limits_l < line; limits_l++)
+            {
+                for (int limits_c = 0; limits_c < column; limits_c++)
+                {
+                    std::cout << assembling[limits_l][limits_c] << " ";
+                }
+                std::cout << std::endl << "\t";
+            }
+            return 0;
+        }
 
         if ((line_user > line) || (column_user > column))
         {
@@ -381,7 +396,7 @@ check_for_input:
             {
                 for (int limits_c = 0; limits_c < column; limits_c++)
                 {
-                    std::cout << "\x1b[1;36m" << matrix[limits_l][limits_c] << " ";
+                    std::cout << "\x1b[1;36m" << matrix[limits_l][limits_c] << "|";
                 }
                 std::cout << std::endl;
             }
@@ -402,7 +417,7 @@ check_for_input:
             {
                 for (int limits_c = 0; limits_c < column; limits_c++)
                 {
-                    std::cout << "\x1b[1;36m" << matrix[limits_l][limits_c] << " ";
+                    std::cout << "\x1b[1;36m" << matrix[limits_l][limits_c] << "|";
                 }
                 std::cout << std::endl;
             }
