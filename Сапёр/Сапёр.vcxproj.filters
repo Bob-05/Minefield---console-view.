@@ -39,8 +39,5 @@
     <Image Include="..\..\..\..\Desktop\Мои_проекты\Учёба-колледж\Хлам\Сапёр_64-64_.ico">
       <Filter>Файлы ресурсов</Filter>
     </Image>
-    <Image Include="..\..\..\..\Desktop\Мои_проекты\Учёба-колледж\Хлам\Сапёр.ico">
-      <Filter>Файлы ресурсов</Filter>
-    </Image>
   </ItemGroup>
 </Project>

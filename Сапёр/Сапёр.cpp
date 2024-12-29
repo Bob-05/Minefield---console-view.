@@ -136,6 +136,7 @@ int check()
 
 int  main()
 {
+  
     std::system("chcp 1251");
     setlocale(LC_ALL, "Russian");
     srand(time(NULL));
@@ -172,7 +173,7 @@ int  main()
               << ":        - (2)Средний (По умолчанию 15 мин);                          :\n"
               << ":        - (3)Сложный (По умолчанию 20 мин);                          :\n"
               << ":     2. По умолчанию поле имеет размер 15:15 клеток;                 :\n"
-              << ":     3. Все пареметры игры можно изменить, введя \"*Настройки* - (4)\":\n"
+              << ":     3. Все пареметры игры можно изменить, введя \"*Настройки* - (4)\" :\n"
               << "-----------------------------------------------------------------------\x1b[0;32m"
         << std::endl;
 
@@ -220,6 +221,10 @@ int  main()
 
             if (preference == "поле")
             {
+                cout << "\aДанная функция в разработке!\n";
+                goto menu_preference;
+
+                //нужно доработать!
                 int number_cells;
                 cout << "\tВведите количество клеток поля (минимум 15 по вертикали и горизонтали): ";
                 cin >> number_cells;
@@ -317,6 +322,10 @@ int  main()
         std::cout << std::endl;
     }
 
+    //сколько же мин мы нашли?
+    int number_min = 0;
+    // количество ходов 
+    int number_moves = 0;
 
 check_for_input:
     
@@ -324,18 +333,23 @@ check_for_input:
     for (;;)
     {
         std::cout << "\x1b[0;32mВведите координаты хода (выход - \"Выход\"): " << std::endl;
-        std::cout << "\t\x1b[0;32mВведите строку : \x1b[0;37m";
+        std::cout << "\t\x1b[0;32mВведите строку " << "от '0' до " << line -1  << ": \x1b[0;37m";
         int line_user = check();
-        std::cout << "\t\x1b[0;32mВведите столбец: \x1b[0;37m";
+        std::cout << "\t\x1b[0;32mВведите столбец " << "от '0' до " << column - 1 << ": \x1b[0;37m";
         int column_user = check();
 
-        if ((line_user > line && line_user < 0) && (column_user > column && column_user < 0))
+
+        if ((line_user > line) || (column_user > column))
         {
-            std::cout << "\t\x1b[1;31mОшибка ввода!!!\n";
+            std::cout << "\t\x1b[1;31mНеверные координаты!!!\n";
             std::cout << "\tКоординаты должны соответствовать величине поля!!!\x1b[0;37m\n";
             goto check_for_input;
         }
-        else if (assembling[line_user][column_user] == '*')
+
+
+
+        //проверка введённых координат на совпадение и дальнейшего действия
+        if (assembling[line_user][column_user] == '*')
         {
             std::cout << "\x1b[1;32mВы угадли!!!\n";
             matrix[line_user][column_user] = assembling[line_user][column_user];
@@ -351,15 +365,17 @@ check_for_input:
                         if (assembling[line_user + j][column_user + i] != '*')
                         {
                           
-                            if (matrix[line_user + j][column_user + i] != assembling[line_user + j][column_user + i])
+                            /*if (matrix[line_user + j][column_user + i] != assembling[line_user + j][column_user + i])
                             {
                                 matrix[line_user + j][column_user + i] = assembling[line_user + j][column_user + i];
                             }
+                            */
+                             matrix[line_user + j][column_user + i] = assembling[line_user + j][column_user + i];
                         }
                     }
                 }
             }
-                
+
             //вывод данной матрицы
             for (int limits_l = 0; limits_l < line; limits_l++)
             {
@@ -369,14 +385,68 @@ check_for_input:
                 }
                 std::cout << std::endl;
             }
+            //нашли ещё мину!
+            number_min += 1;
+            // +1 к кол-ву ходов
+            number_moves += 1;
         }
         else if (assembling[line_user][column_user] != '*')
         {
             std::cout << "\t\x1b[1;31mПромах....\x1b[0;37m\n";
+
+            //обозначу пустую клетку, как '-'
+            matrix[line_user][column_user] = '-';
+
+            //вывод данной матрицы
+            for (int limits_l = 0; limits_l < line; limits_l++)
+            {
+                for (int limits_c = 0; limits_c < column; limits_c++)
+                {
+                    std::cout << "\x1b[1;36m" << matrix[limits_l][limits_c] << " ";
+                }
+                std::cout << std::endl;
+            }
+            // +1 к кол-ву ходов
+            number_moves += 1;
         }
-        else
+        else 
         { 
             std::cout << "\t\x1b[1;31mВыход....\x1b[0;37m\n";
+            return 0;
+        }
+
+        //определим сколько в общем мин на поле, чтобы решить выиграл ли игрок 
+        if (level_game == 1 && number_min == level_1_min)
+        {
+            std::cout << "\n\n\t\x1b[1;32mВЫ ПОБЕДИЛИ, ПОЗДРАВЛЯЮ!!!\n" 
+                << "\tНайденно мин \x1b[37m" 
+                << number_min
+                << "\x1b[32mиз \x1b[37m" 
+                << level_1_min  
+                << "\n\t\x1b[32mКоличество ходов до победы -> \x1b[37m" 
+                << number_moves;
+            return 0;
+        }
+        if (level_game == 2 && number_min == level_2_min)
+        {
+            std::cout << "\n\n\t\x1b[1;32mВЫ ПОБЕДИЛИ, ПОЗДРАВЛЯЮ!!!\n"
+                << "\tНайденно мин \x1b[37m"
+                << number_min
+                << "\x1b[32mиз \x1b[37m"
+                << level_2_min
+                << "\n\t\x1b[32mКоличество ходов до победы -> \x1b[37m"
+                << number_moves;
+            return 0;
+        }
+        if (level_game == 3 && number_min == level_3_min)
+        {
+            std::cout << "\n\n\t\x1b[1;32mВЫ ПОБЕДИЛИ, ПОЗДРАВЛЯЮ!!!\n"
+                << "\tНайденно мин \x1b[37m"
+                << number_min
+                << "\x1b[32mиз \x1b[37m"
+                << level_3_min
+                << "\n\t\x1b[32mКоличество ходов до победы -> \x1b[37m"
+                << number_moves;
             return 0;
         }
     }
