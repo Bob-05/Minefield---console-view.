@@ -132,6 +132,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Libraries.h" />
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Сапёр.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\..\Desktop\Мои_проекты\Учёба-колледж\Хлам\Сапёр.ico" />
+    <Image Include="..\..\..\..\Desktop\Мои_проекты\Учёба-колледж\Хлам\Сапёр_64-64_.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

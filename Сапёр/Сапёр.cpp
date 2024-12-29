@@ -307,6 +307,7 @@ int  main()
 
 
     //вывод данной матрицы
+    std::cout << "\n\x1b[1;32mВид построенного поля:\n\x1b[0;33m";
     for (int limits_l = 0; limits_l < line; limits_l++)
     {
         for (int limits_c = 0; limits_c < column; limits_c++)
@@ -337,8 +338,28 @@ check_for_input:
         else if (assembling[line_user][column_user] == '*')
         {
             std::cout << "\x1b[1;32mВы угадли!!!\n";
-            matrix[line_user][column_user] = assembling[line_user][column_user]; \
-                matrix = placement_number_for_coord(matrix, line_user, column_user);
+            matrix[line_user][column_user] = assembling[line_user][column_user];
+            size_t line_matrix = matrix.size();
+            size_t column_matrix = matrix[0].size();
+
+            for (int j = -1; j < 2; ++j)
+            {
+                for (int i = -1; i < 2; ++i)
+                {
+                    if ((((line_user + j) < line_matrix) && (line_user + j) >= 0) && (((column_user + j) < column_matrix) && (column_user + j) >= 0))
+                    {
+                        if (assembling[line_user + j][column_user + i] != '*')
+                        {
+                          
+                            if (matrix[line_user + j][column_user + i] != assembling[line_user + j][column_user + i])
+                            {
+                                matrix[line_user + j][column_user + i] = assembling[line_user + j][column_user + i];
+                            }
+                        }
+                    }
+                }
+            }
+                
             //вывод данной матрицы
             for (int limits_l = 0; limits_l < line; limits_l++)
             {
