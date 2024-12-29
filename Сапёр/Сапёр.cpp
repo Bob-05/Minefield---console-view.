@@ -141,6 +141,7 @@ int  main()
     setlocale(LC_ALL, "Russian");
     srand(time(NULL));
 
+    std::cout << "\x1b[4;34mВерсия 1.1 (обновление 30.12.2024)\x1b[0;37m\n\n";
     //Размер поля
     int line = 15;
     int column = 15;
