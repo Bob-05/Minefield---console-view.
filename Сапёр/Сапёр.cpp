@@ -351,6 +351,13 @@ check_for_input:
                 }
                 std::cout << std::endl << "\t";
             }
+            std::cout
+                << "\t\x1b[32mНайденно мин \x1b[37m"
+                << number_min
+                << "\n\t\t\x1b[32mКоличество ходов до выхода -> \x1b[37m"
+                << number_moves;
+
+            std::cout << "\n\t\x1b[0;31mИГРА ЗАВЕРШЕНА ДОСРОЧНО!!!\x1b[0;30m";
             return 0;
         }
 
@@ -391,6 +398,7 @@ check_for_input:
                 }
             }
 
+            std::cout << "\n\n\t\x1b[4;5;37mНомер хода -> " << "\x1b[35m" << number_moves + 1 << "\n\x1b[0m";
             //вывод данной матрицы
             for (int limits_l = 0; limits_l < line; limits_l++)
             {
@@ -412,6 +420,7 @@ check_for_input:
             //обозначу пустую клетку, как '-'
             matrix[line_user][column_user] = '-';
 
+            std::cout << "\n\n\t\x1b[4;5;37mНомер хода -> " << "\x1b[35m" << number_moves + 1 << "\n\x1b[0m";
             //вывод данной матрицы
             for (int limits_l = 0; limits_l < line; limits_l++)
             {
