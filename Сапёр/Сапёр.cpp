@@ -141,7 +141,7 @@ int  main()
     setlocale(LC_ALL, "Russian");
     srand(time(NULL));
 
-    std::cout << "\x1b[4;34mВерсия 1.1 (обновление 30.12.2024)\x1b[0;37m\n\n";
+    std::cout << "\x1b[4;34mВерсия 2.0 (обновление 12.01.2025)\x1b[0;37m\n\n";
     //Размер поля
     int line = 15;
     int column = 15;
@@ -180,7 +180,12 @@ int  main()
 
 
     //определение режима работы
-    start:
+start:
+    std::cout << "\n\tЛистовой режим (да/нет): ";
+    std::string listov_2 = "0";
+    std::cin >> listov_2;
+
+
     std::cout << "\n\t\x1b[1;32mВведите режим игры(цифру): \x1b[0;33m";
     int level_game = check();
 
@@ -342,6 +347,7 @@ check_for_input:
 
         if (line_user == line || column_user == column)
         {
+
             //вывод готовой матрицы
             std::cout << "\t\n\x1b[1;32mОтвет построенного поля:\n\t\x1b[0;33m";
             for (int limits_l = 0; limits_l < line; limits_l++)
@@ -374,10 +380,15 @@ check_for_input:
         //проверка введённых координат на совпадение и дальнейшего действия
         if (assembling[line_user][column_user] == '*')
         {
+           if (listov_2 == "да")
+            {
+                system("cls");
+            }
             std::cout << "\x1b[1;32mВы угадли!!!\n";
             matrix[line_user][column_user] = assembling[line_user][column_user];
             size_t line_matrix = matrix.size();
             size_t column_matrix = matrix[0].size();
+
 
             for (int j = -1; j < 2; ++j)
             {
@@ -416,7 +427,23 @@ check_for_input:
         }
         else if (assembling[line_user][column_user] != '*')
         {
-            std::cout << "\t\x1b[1;31mПромах....\x1b[0;37m\n";
+            if (listov_2 == "нет")
+            {
+                system("cls");
+            }
+
+/*
+            std::cout << " ";
+            for (int i = 0; i < column; i++)
+            {
+                std::cout << "\x1b[1;37m" << i + 1 << "|";
+            }
+            std::cout << "\n";
+            for (int i = 0; i < column*2; i++)
+            {
+                std::cout << "\x1b[1;37m" << "_";
+            }
+*/
 
             //обозначу пустую клетку, как '-'
             matrix[line_user][column_user] = '-';
@@ -431,6 +458,8 @@ check_for_input:
                 }
                 std::cout << std::endl;
             }
+            std::cout << "\t\x1b[1;31mПромах....\x1b[0;37m\n";
+
             // +1 к кол-ву ходов
             number_moves += 1;
         }
