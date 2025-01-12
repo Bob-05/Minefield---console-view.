@@ -445,6 +445,7 @@ check_for_input:
             }
 */
 
+
             //обозначу пустую клетку, как '-'
             matrix[line_user][column_user] = '-';
 
