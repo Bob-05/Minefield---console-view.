@@ -141,7 +141,7 @@ int  main()
     setlocale(LC_ALL, "Russian");
     srand(time(NULL));
 
-    std::cout << "\x1b[4;34mВерсия 2.0 (обновление 12.01.2025)\x1b[0;37m\n\n";
+    std::cout << "\x1b[4;34mВерсия 1.21 (обновление 13.01.2025)\x1b[0;37m\n\n";
     //Размер поля
     int line = 15;
     int column = 15;
@@ -156,35 +156,40 @@ int  main()
     int level_2_min = 30; //15 мин
     int level_3_min = 40; //20 мин
 
+    //количество попыток
+    int number_of_attempts = 20;
 
     //построенное поле
     std::vector<std::vector<char>> assembling;
 
     //Правила игры
-    std::cout << "\a\x1b[1;32m----------------------------------------\n"
-        << "|    \x1b[1;31mДобро пожаловать в игру Сапёр!\x1b[0;32m    |\n"
-        << "----------------------------------------\n"
+    std::cout << "\a\x1b[1;32m-------------------------------------------------\n"
+        << "|    \x1b[1;31mДобро пожаловать в игру Сапёр_наоборот!\x1b[0;32m    |\n"
+        << "-------------------------------------------------\n"
         << std::endl;
 
 
-    std::cout << "-----------------------------------------------------------------------\n"
-              << "|  \x1b[0;33mПравила игры:\x1b[0;32m                                                      |\n"
-              << "|     \x1b[0;33m1. Есть три уровня сложности\x1b[0;32m                                    |\n"
-              << "|        \x1b[0;33m- (1)Лёгкий (По умолчанию 10 мин);\x1b[0;32m                           |\n"
-              << "|        \x1b[0;33m- (2)Средний (По умолчанию 15 мин);\x1b[0;32m                          |\n"
-              << "|        \x1b[0;33m- (3)Сложный (По умолчанию 20 мин);\x1b[0;32m                          |\n"
-              << "|     \x1b[0;33m2. По умолчанию поле имеет размер 15:15 клеток;\x1b[0;32m                 |\n"
-              << "|     \x1b[0;33m3. Все пареметры игры можно изменить, введя \"*Настройки* - (4)\x1b[0;32m  |\n"
-              << "-----------------------------------------------------------------------\x1b[0;32m"
+    std::cout << "--------------------------------------------------------------------------\n"
+              << "|  \x1b[0;33mПравила игры:\x1b[0;32m                                                         |\n"
+              << "|     \x1b[0;33m1. Есть три уровня сложности\x1b[0;32m                                       |\n"
+              << "|        \x1b[0;33m- (1)Лёгкий (По умолчанию 10 мин),\x1b[0;32m                              |\n"
+              << "|        \x1b[0;33m- (2)Средний (По умолчанию 15 мин),\x1b[0;32m                             |\n"
+              << "|        \x1b[0;33m- (3)Сложный (По умолчанию 20 мин),\x1b[0;32m                             |\n"
+              << "|     \x1b[0;33m2. По умолчанию поле имеет размер 15:15 клеток;                   \x1b[0;32m |\n"
+              << "|     \x1b[0;33m2. Нужно разменировать все мины (всего 20 попыток);\x1b[0;32m                |\n"
+              << "|     \x1b[0;33m3. Все пареметры игры можно изменить, введя \"4\"\x1b[0;32m                    |\n"
+              << "--------------------------------------------------------------------------\x1b[0;32m"
         << std::endl;
 
 
     //определение режима работы
 start:
+
+    /*
     std::cout << "\n\tЛистовой режим (да/нет): ";
     std::string listov_2 = "0";
     std::cin >> listov_2;
-
+    */
 
     std::cout << "\n\t\x1b[1;32mВведите режим игры(цифру): \x1b[0;33m";
     int level_game = check();
@@ -280,7 +285,8 @@ start:
         goto start;
 
     }
-    else {
+    else if (level_game <= 3 || level_game >= 1) 
+    {
         switch (level_game)
         {
         case 1:
@@ -309,14 +315,14 @@ start:
         }
     }
 
-
-
-   
+    system("cls");
     //построенние матрицы по заданным данным с минами
+    std::cout <<  "Режим игры: " << level_game;
+    std::cout << "\nКоличество мин: " << coordinates.size()/2 << std::endl;
     assembling = placement_number(placement_min_in_vector(coordinates, assembling_v(line, column)));
     std::vector<std::vector<char>> matrix = assembling_v(line, column);
 
-
+    
     //вывод данной матрицы
     std::cout << "\n\x1b[1;32mВид построенного поля:\n\x1b[0;33m";
     for (int limits_l = 0; limits_l < line; limits_l++)
@@ -327,6 +333,8 @@ start:
         }
         std::cout << std::endl;
     }
+    
+
     std::cout << std::endl;
     //сколько же мин мы нашли?
     int number_min = 0;
@@ -375,16 +383,16 @@ check_for_input:
             goto check_for_input;
         }
 
-
+        //количество ходов уменьшается
+        number_of_attempts -= 1;
 
         //проверка введённых координат на совпадение и дальнейшего действия
         if (assembling[line_user][column_user] == '*')
         {
-           if (listov_2 == "да")
-            {
-                system("cls");
-            }
-            std::cout << "\x1b[1;32mВы угадли!!!\n";
+            system("cls");
+            std::cout << "Режим игры: " << level_game;
+            std::cout << "\nКоличество мин: " << coordinates.size() / 2 << std::endl;
+
             matrix[line_user][column_user] = assembling[line_user][column_user];
             size_t line_matrix = matrix.size();
             size_t column_matrix = matrix[0].size();
@@ -420,6 +428,8 @@ check_for_input:
                 }
                 std::cout << std::endl;
             }
+            std::cout << "\x1b[1;32mВы угадли!!!\n";
+            std::cout << "\t\x1b[1;31mПопыток осталось - \x1b[0;37m" << number_of_attempts << std::endl;
             //нашли ещё мину!
             number_min += 1;
             // +1 к кол-ву ходов
@@ -427,27 +437,19 @@ check_for_input:
         }
         else if (assembling[line_user][column_user] != '*')
         {
-            if (listov_2 == "нет")
-            {
                 system("cls");
-            }
-
-/*
-            std::cout << " ";
-            for (int i = 0; i < column; i++)
-            {
-                std::cout << "\x1b[1;37m" << i + 1 << "|";
-            }
-            std::cout << "\n";
-            for (int i = 0; i < column*2; i++)
-            {
-                std::cout << "\x1b[1;37m" << "_";
-            }
-*/
-
+                std::cout << "Режим игры: " << level_game;
+                std::cout << "\nКоличество мин: " << coordinates.size() / 2 << std::endl;
 
             //обозначу пустую клетку, как '-'
-            matrix[line_user][column_user] = '-';
+                if (assembling[line_user][column_user] == '0')
+                {
+                    matrix[line_user][column_user] = '-';
+                }
+                else
+                {
+                    matrix[line_user][column_user] = assembling[line_user][column_user];
+                }
 
             std::cout << "\n\n\t\x1b[4;5;37mНомер хода -> " << "\x1b[35m" << number_moves + 1 << "\n\x1b[0m";
             //вывод данной матрицы
@@ -460,7 +462,7 @@ check_for_input:
                 std::cout << std::endl;
             }
             std::cout << "\t\x1b[1;31mПромах....\x1b[0;37m\n";
-
+            std::cout << "\t\x1b[1;31mПопыток осталось - \x1b[0;37m" << number_of_attempts <<std::endl;
             // +1 к кол-ву ходов
             number_moves += 1;
         }
@@ -477,7 +479,7 @@ check_for_input:
                 << "\tНайденно мин \x1b[37m" 
                 << number_min
                 << "\x1b[32mиз \x1b[37m" 
-                << level_1_min  
+                << level_1_min / 2
                 << "\n\t\x1b[32mКоличество ходов до победы -> \x1b[37m" 
                 << number_moves;
             return 0;
@@ -488,7 +490,7 @@ check_for_input:
                 << "\tНайденно мин \x1b[37m"
                 << number_min
                 << "\x1b[32mиз \x1b[37m"
-                << level_2_min
+                << level_2_min / 2
                 << "\n\t\x1b[32mКоличество ходов до победы -> \x1b[37m"
                 << number_moves;
             return 0;
@@ -499,10 +501,40 @@ check_for_input:
                 << "\tНайденно мин \x1b[37m"
                 << number_min
                 << "\x1b[32mиз \x1b[37m"
-                << level_3_min
+                << level_3_min / 2
                 << "\n\t\x1b[32mКоличество ходов до победы -> \x1b[37m"
                 << number_moves;
             return 0;
+        }
+        if (number_of_attempts == 0)
+        {
+            std::cout << "\nПопытки закончились - проигрышь!\n"
+                << "\tНайденно мин \x1b[37m"
+                << number_min
+                << "\n\t\x1b[32mКоличество ходов -> \x1b[37m"
+                << number_moves
+                << "\n\x1b[32mЖелаете начать заново (да/нет): \x1b[37m";
+            std::string answer_user;
+            std::cin >> answer_user;
+
+            for (size_t i = 0; i < answer_user.size(); i++)
+            {
+                answer_user[i] = tolower(answer_user[i]);
+            }
+
+            if (answer_user == "да")
+            {
+                goto check_for_input;
+            }
+            else if (answer_user == "нет")
+            {
+                return 0;
+            }
+            else
+            {
+                return 0;
+            }
+
         }
     }
     //return 0;
