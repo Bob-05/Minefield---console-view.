@@ -141,7 +141,7 @@ int  main()
     setlocale(LC_ALL, "Russian");
     srand(time(NULL));
 
-    std::cout << "\x1b[4;34mВерсия 1.21 (обновление 13.01.2025)\x1b[0;37m\n\n";
+    std::cout << "\x1b[4;34mВерсия 1.3 (обновление 13.01.2025 / 22:05)\x1b[0;37m\n\n";
     //Размер поля
     int line = 15;
     int column = 15;
@@ -317,8 +317,8 @@ start:
 
     system("cls");
     //построенние матрицы по заданным данным с минами
-    std::cout <<  "Режим игры: " << level_game;
-    std::cout << "\nКоличество мин: " << coordinates.size()/2 << std::endl;
+    std::cout <<  "\x1b[0;37mРежим игры: " << level_game;
+    std::cout << "\nКоличество мин: " << coordinates.size()/2 << std::endl << std::endl;
     assembling = placement_number(placement_min_in_vector(coordinates, assembling_v(line, column)));
     std::vector<std::vector<char>> matrix = assembling_v(line, column);
 
@@ -362,7 +362,7 @@ check_for_input:
             {
                 for (int limits_c = 0; limits_c < column; limits_c++)
                 {
-                    std::cout << assembling[limits_l][limits_c] << " ";
+                    std::cout << assembling[limits_l][limits_c] << "|";
                 }
                 std::cout << std::endl << "\t";
             }
@@ -508,8 +508,19 @@ check_for_input:
         }
         if (number_of_attempts == 0)
         {
-            std::cout << "\nПопытки закончились - проигрышь!\n"
-                << "\tНайденно мин \x1b[37m"
+            std::cout << "\nПопытки закончились - проигрышь!\n";
+            //вывод готовой матрицы
+            std::cout << "\t\n\x1b[1;32mОтвет построенного поля:\n\t\x1b[0;33m";
+            for (int limits_l = 0; limits_l < line; limits_l++)
+            {
+                for (int limits_c = 0; limits_c < column; limits_c++)
+                {
+                    std::cout << assembling[limits_l][limits_c] << "|";
+                }
+                std::cout << std::endl << "\t";
+            }
+
+            std::cout << "\n\t\x1b[32mНайденно мин \x1b[37m"
                 << number_min
                 << "\n\t\x1b[32mКоличество ходов -> \x1b[37m"
                 << number_moves
@@ -524,7 +535,8 @@ check_for_input:
 
             if (answer_user == "да")
             {
-                goto check_for_input;
+                goto start;
+                system("cls");
             }
             else if (answer_user == "нет")
             {
