@@ -141,7 +141,7 @@ int  main()
     setlocale(LC_ALL, "Russian");
     srand(time(NULL));
 
-    std::cout << "\x1b[4;34mВерсия 1.3 (обновление 13.01.2025 / 22:05)\x1b[0;37m\n\n";
+    std::cout << "\x1b[4;34mВерсия 1.31 (обновление 13.01.2025 / 22:05)\x1b[0;37m\n\n";
     //Размер поля
     int line = 15;
     int column = 15;
@@ -362,7 +362,15 @@ check_for_input:
             {
                 for (int limits_c = 0; limits_c < column; limits_c++)
                 {
-                    std::cout << assembling[limits_l][limits_c] << "|";
+                    if (assembling[limits_l][limits_c] != '0')
+                    {
+                        std::cout << "\x1b[1;32m" << assembling[limits_l][limits_c];
+                    }
+                    else
+                    {
+                        std::cout << "\x1b[1;36m" << assembling[limits_l][limits_c];
+                    }
+                    std::cout << "\x1b[1;36m|";
                 }
                 std::cout << std::endl << "\t";
             }
@@ -424,7 +432,15 @@ check_for_input:
             {
                 for (int limits_c = 0; limits_c < column; limits_c++)
                 {
-                    std::cout << "\x1b[1;36m" << matrix[limits_l][limits_c] << "|";
+                    if (matrix[limits_l][limits_c] != '0')
+                    {
+                        std::cout << "\x1b[1;33m" << matrix[limits_l][limits_c];
+                    }
+                    else
+                    {
+                        std::cout << "\x1b[1;36m" << matrix[limits_l][limits_c];
+                    }
+                    std::cout << "\x1b[1;36m|";
                 }
                 std::cout << std::endl;
             }
@@ -457,7 +473,15 @@ check_for_input:
             {
                 for (int limits_c = 0; limits_c < column; limits_c++)
                 {
-                    std::cout << "\x1b[1;36m" << matrix[limits_l][limits_c] << "|";
+                    if (matrix[limits_l][limits_c] != '0')
+                    {
+                        std::cout << "\x1b[1;33m" << matrix[limits_l][limits_c];
+                    }
+                    else
+                    {
+                        std::cout << "\x1b[1;36m" << matrix[limits_l][limits_c];
+                    }       
+                    std::cout << "\x1b[1;36m|";
                 }
                 std::cout << std::endl;
             }
@@ -515,7 +539,15 @@ check_for_input:
             {
                 for (int limits_c = 0; limits_c < column; limits_c++)
                 {
-                    std::cout << assembling[limits_l][limits_c] << "|";
+                    if (assembling[limits_l][limits_c] != '0')
+                    {
+                        std::cout << "\x1b[1;32m" << assembling[limits_l][limits_c];
+                    }
+                    else
+                    {
+                        std::cout << "\x1b[1;36m" << assembling[limits_l][limits_c];
+                    }
+                    std::cout << "\x1b[1;36m|";
                 }
                 std::cout << std::endl << "\t";
             }
