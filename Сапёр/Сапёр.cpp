@@ -101,6 +101,7 @@ std::vector<std::vector<char>> placement_number_for_coord(std::vector<std::vecto
 }
 
 
+
 //проверка ввода на  целое неотрицательное число
 int check()
 {
