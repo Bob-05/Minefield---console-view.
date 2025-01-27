@@ -136,12 +136,12 @@ int check()
 
 int  main()
 {
-  
-    std::system("chcp 1251");
+    system("chcp 1251");
     setlocale(LC_ALL, "Russian");
+    SetConsoleTitleW(L"СапёрНаоборот");
     srand(time(NULL));
 
-    std::cout << "\x1b[4;34mВерсия 1.31 (обновление 13.01.2025 / 22:05)\x1b[0;37m\n\n";
+    std::cout << "\x1b[4;34mВерсия 1.31 (обновление 14.01.2025 / 11:41)\x1b[0;37m\n\n";
     //Размер поля
     int line = 15;
     int column = 15;
