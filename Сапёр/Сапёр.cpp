@@ -120,7 +120,7 @@ int check()
             //очищаем буфер обмена ввода
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
-            std::cout << "Введите целое положительное число!!!\x1b[0;32m\n";
+            std::cout << "Введите целое положительное число!!!\x1b[0;32m -> ";
 
             //пропуск данной итерации
             continue;
@@ -137,12 +137,12 @@ int check()
 
 int  main()
 {
-    system("chcp 1251");
+    system("chcp 1251>nul");
     setlocale(LC_ALL, "Russian");
     SetConsoleTitleW(L"СапёрНаоборот");
     srand(time(NULL));
 
-    std::cout << "\x1b[4;34mВерсия 1.31 (обновление 14.01.2025 / 11:41)\x1b[0;37m\n\n";
+    std::cout << "\x1b[4;34mВерсия 1.34 (обновление 22.02.2025 / 22:22)\x1b[0;37m\n\n";
     //Размер поля
     int line = 15;
     int column = 15;
@@ -212,8 +212,9 @@ start:
             << "* --> 3) история игры - история игры;                  *\n"
             << "* --> 4) история настроек - история изменения настроек;*\n"
             << "* --> 5) сброс - сброс игры до заводских настроек;     *\n"
-            << "* --> 6) чтобы выйти введите - \"выход\".              *\n"
-            << "********************************************************\n";
+            << "* --> 6) чтобы изм. кол-во попыток - попытки;          *\n"
+            << "* --> 7) чтобы выйти введите - \"выход\".                *\n"
+            << "********************************************************\n\x1b[0;33m";
 
         while (true)
         {
@@ -229,28 +230,54 @@ start:
                 preference[i] = tolower(preference[i]);
             }
             
-            cout << "Предполагаемый ввод => \"" << preference << "\"\n";
+            cout << "Предполагаемый ввод => \"\x1b[3;31m" << preference << "\x1b[0;33m\"\n";
 
             if (preference == "поле")
             {
-                cout << "\aДанная функция в разработке!\n";
-                goto menu_preference;
+                cout << "Введите кол-во строк (минимум - 15, максимум - 60):\x1b[3;31m ";
+                int buff_line = 0;
+                buff_line = check();
 
-                //нужно доработать!
-                int number_cells;
-                cout << "\tВведите количество клеток поля (минимум 15 по вертикали и горизонтали): ";
-                cin >> number_cells;
-                line = column = number_cells;
-                if (line = column)
+                cout << "\x1b[0;33mВведите кол-во столбцов (минимум - 15, максимум - 60):\x1b[3;31m ";
+                int buff_colum = 0;
+                buff_colum = check();
+
+                if (buff_colum >= 15 && buff_colum <= 60 && buff_line >= 15 && buff_line <= 60)
                 {
-                    cout << "\n\tУспешно!!!\n";
+                    line = buff_line;
+                    column = buff_colum;
+                    cout << "\x1b[0;33mКол-во строк -> \x1b[3;31m" << line << std::endl;
+                    cout << "\x1b[0;33mКол-во столбцов -> \x1b[3;31m" << column << std::endl;
+                    cout << "\x1b[3;37m---------------->УСПЕШНО<-------------------\x1b[0;33m\n";
                     goto menu_preference;
                 }
-
+                else
+                {
+                    cout << "\x1b[0;33mОшибка\n";
+                    goto menu_preference;
+                }
             }
             if (preference == "мины")
             {
-                cout << "\aДанная функция в разработке!\n";
+                cout << "Введите кол-во мин для первого режима игры ( от \'10\' до \'40\'):\x1b[3;31m ";
+                level_1_min = check();
+                if (level_1_min >= 10 && level_1_min <= 40)
+                {
+                    level_1_min *= 2;
+                    level_3_min = level_1_min * 2;
+                    level_2_min = (level_1_min + level_3_min) / 2;
+                    cout << "\x1b[0;33m\n\tКол-во мин для 1-го режима <- \x1b[3;31m" << level_1_min/2;
+                    cout << "\x1b[0;33m\n\tКол-во мин для 2-го режима <- \x1b[3;31m" << level_2_min/2;
+                    cout << "\x1b[0;33m\n\tКол-во мин для 3-го режима <- \x1b[3;31m" << level_3_min/2 << std::endl;
+                    cout << "\x1b[3;37m---------------->УСПЕШНО<-------------------\x1b[0;33m\n";
+                    goto menu_preference;
+                }
+                else
+                {
+                    cout << "\x1b[0;33mОшибка\n";
+                    goto menu_preference;
+                }
+                
                 goto menu_preference;
             }
             if (preference == "история игры")
@@ -265,12 +292,55 @@ start:
             }
             if (preference == "сброс")
             {
-                cout << "\aДанная функция в разработке!\n";
+                //Размер поля
+                line = 15;
+                column = 15;
+
+                //количество мин на поле
+                level_1_min = 20; //10 мин
+                level_2_min = 30; //15 мин
+                level_3_min = 40; //20 мин
+
+                //количество попыток
+                number_of_attempts = 20;
+
+                cout << "\x1b[0;33mКол-во строк -> \x1b[3;31m" << line << std::endl;
+                cout << "\x1b[0;33mКол-во столбцов -> \x1b[3;31m" << column << std::endl;
+                cout << "\x1b[0;33mКол-во мин для 1-го режима -> \x1b[3;31m" << level_1_min / 2 << std::endl;
+                cout << "\x1b[0;33mКол-во мин для 2-го режима -> \x1b[3;31m" << level_2_min / 2 << std::endl;
+                cout << "\x1b[0;33mКол-во мин для 3-го режима -> \x1b[3;31m" << level_3_min / 2 << std::endl;
+                cout << "\x1b[0;33mКол-во попыток -> \x1b[3;31m" << number_of_attempts << std::endl;
+
+                cout << "\x1b[3;37m---------------->УСПЕШНО<-------------------\x1b[0;33m\n";
                 goto menu_preference;
+            }
+            if (preference == "попытки")
+            {
+                cout << "Введите кол-во желаеммых попыток ( от \'20\' до \'10000\'):\x1b[3;31m ";
+                number_of_attempts = check();
+                cout << "\x1b[0;33m";
+
+                if (number_of_attempts >= 20 && number_of_attempts <= 10000)
+                {
+                    cout << "\x1b[0;33mКол-во попыток -> \x1b[3;31m" << number_of_attempts << std::endl;
+                    cout << "\x1b[3;37m---------------->УСПЕШНО<-------------------\x1b[0;33m\n";
+                    goto menu_preference;
+                }
+                else
+                {
+                    cout << "Ошибка\n";
+                    goto menu_preference;
+                }
+
             }
             if (preference == "выход")
             {
-
+                cout << "\x1b[0;33mКол-во строк -> \x1b[3;31m" << line << std::endl;
+                cout << "\x1b[0;33mКол-во столбцов -> \x1b[3;31m" << column << std::endl;
+                cout << "\x1b[0;33mКол-во мин для 1-го режима -> \x1b[3;31m" << level_1_min / 2 << std::endl;
+                cout << "\x1b[0;33mКол-во мин для 2-го режима -> \x1b[3;31m" << level_2_min / 2 << std::endl;
+                cout << "\x1b[0;33mКол-во мин для 3-го режима -> \x1b[3;31m" << level_3_min / 2 << std::endl;
+                cout << "\x1b[0;33mКол-во попыток -> \x1b[3;31m" << number_of_attempts << std::endl;
                 cout << "----------------------------Успешно-------------------------\n\n";
                 goto start;
             }
@@ -278,6 +348,7 @@ start:
             {
                 cout << "\n\t\tНЕВЕРНЫЙ ВВОД!!!\n";
             }
+
         }
     }
     else if (level_game > 3 || level_game < 1)
@@ -315,6 +386,16 @@ start:
             break;
         }
     }
+    /*
+    //запись в файл данных
+    std::ofstream fout;
+    fout.open("datasetting.txt", std::ios_base::app);
+    fout << "#поле\n" << "\t#1-" << line << "\n\t#2-" << column << std::endl;
+    fout << "*мины\n" << "\t*1-" << level_1_min / 2 << "\n\t*2-" << level_2_min / 2 << "\n\t*3-" << level_3_min << std::endl;
+    fout.close();
+    */
+
+
 
     system("cls");
     //построенние матрицы по заданным данным с минами
@@ -363,7 +444,11 @@ check_for_input:
             {
                 for (int limits_c = 0; limits_c < column; limits_c++)
                 {
-                    if (assembling[limits_l][limits_c] != '0')
+                    if (assembling[limits_l][limits_c] == '*')
+                    {
+                        std::cout << "\x1b[1;31m" << assembling[limits_l][limits_c];
+                    }
+                    else if (assembling[limits_l][limits_c] != '0')
                     {
                         std::cout << "\x1b[1;32m" << assembling[limits_l][limits_c];
                     }
@@ -382,6 +467,7 @@ check_for_input:
                 << number_moves;
 
             std::cout << "\n\t\x1b[0;31mИГРА ЗАВЕРШЕНА ДОСРОЧНО!!!\x1b[0;30m";
+            system("pause>nul");
             return 0;
         }
 
@@ -433,7 +519,11 @@ check_for_input:
             {
                 for (int limits_c = 0; limits_c < column; limits_c++)
                 {
-                    if (matrix[limits_l][limits_c] != '0')
+                    if (matrix[limits_l][limits_c] == '*')
+                    {
+                        std::cout << "\x1b[1;31m" << matrix[limits_l][limits_c];
+                    }
+                    else if (matrix[limits_l][limits_c] != '0')
                     {
                         std::cout << "\x1b[1;33m" << matrix[limits_l][limits_c];
                     }
@@ -474,14 +564,18 @@ check_for_input:
             {
                 for (int limits_c = 0; limits_c < column; limits_c++)
                 {
-                    if (matrix[limits_l][limits_c] != '0')
+                    if (matrix[limits_l][limits_c] == '*')
+                    {
+                        std::cout << "\x1b[1;31m" << matrix[limits_l][limits_c];
+                    }
+                    else if (matrix[limits_l][limits_c] != '0')
                     {
                         std::cout << "\x1b[1;33m" << matrix[limits_l][limits_c];
                     }
                     else
                     {
                         std::cout << "\x1b[1;36m" << matrix[limits_l][limits_c];
-                    }       
+                    }
                     std::cout << "\x1b[1;36m|";
                 }
                 std::cout << std::endl;
@@ -494,6 +588,7 @@ check_for_input:
         else 
         { 
             std::cout << "\t\x1b[1;31mВыход....\x1b[0;37m\n";
+            system("pause>nul");
             return 0;
         }
 
@@ -503,10 +598,11 @@ check_for_input:
             std::cout << "\n\n\t\x1b[1;32mВЫ ПОБЕДИЛИ, ПОЗДРАВЛЯЮ!!!\n" 
                 << "\tНайденно мин \x1b[37m" 
                 << number_min
-                << "\x1b[32mиз \x1b[37m" 
+                << "\x1b[32m из \x1b[37m" 
                 << level_1_min / 2
                 << "\n\t\x1b[32mКоличество ходов до победы -> \x1b[37m" 
                 << number_moves;
+            system("pause>nul");
             return 0;
         }
         if (level_game == 2 && number_min == level_2_min)
@@ -514,10 +610,11 @@ check_for_input:
             std::cout << "\n\n\t\x1b[1;32mВЫ ПОБЕДИЛИ, ПОЗДРАВЛЯЮ!!!\n"
                 << "\tНайденно мин \x1b[37m"
                 << number_min
-                << "\x1b[32mиз \x1b[37m"
+                << "\x1b[32m из \x1b[37m"
                 << level_2_min / 2
                 << "\n\t\x1b[32mКоличество ходов до победы -> \x1b[37m"
                 << number_moves;
+            system("pause>nul");
             return 0;
         }
         if (level_game == 3 && number_min == level_3_min)
@@ -525,10 +622,11 @@ check_for_input:
             std::cout << "\n\n\t\x1b[1;32mВЫ ПОБЕДИЛИ, ПОЗДРАВЛЯЮ!!!\n"
                 << "\tНайденно мин \x1b[37m"
                 << number_min
-                << "\x1b[32mиз \x1b[37m"
+                << "\x1b[32m из \x1b[37m"
                 << level_3_min / 2
                 << "\n\t\x1b[32mКоличество ходов до победы -> \x1b[37m"
                 << number_moves;
+            system("pause>nul");
             return 0;
         }
         if (number_of_attempts == 0)
@@ -540,7 +638,11 @@ check_for_input:
             {
                 for (int limits_c = 0; limits_c < column; limits_c++)
                 {
-                    if (assembling[limits_l][limits_c] != '0')
+                    if (assembling[limits_l][limits_c] == '*')
+                    {
+                        std::cout << "\x1b[1;31m" << assembling[limits_l][limits_c];
+                    }
+                    else if (assembling[limits_l][limits_c] != '0')
                     {
                         std::cout << "\x1b[1;32m" << assembling[limits_l][limits_c];
                     }
@@ -573,10 +675,12 @@ check_for_input:
             }
             else if (answer_user == "нет")
             {
+                system("pause>nul");
                 return 0;
             }
             else
             {
+                system("pause>nul");
                 return 0;
             }
 

@@ -9,3 +9,4 @@
 #include <limits> //для numeric_limits в функции check() 
 #include <cstdlib>
 #include <windows.h>
+#include <fstream>
